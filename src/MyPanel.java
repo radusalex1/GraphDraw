@@ -92,7 +92,10 @@ public class MyPanel extends JPanel {
 
 				pointStart = null;
 				isDragging = false;
+
 				repaint();
+
+
 			}
 		});
 
@@ -113,7 +116,6 @@ public class MyPanel extends JPanel {
 		Point delta = new Point();
 		public void mouseDragged(MouseEvent e)
 		{
-			Point delta = new Point();
 			Node node=null;
 			if(moving)
 			{
@@ -136,18 +138,6 @@ public class MyPanel extends JPanel {
 			repaint();
 		}
 
-	}
-
-	private boolean ClickOnNode(Point point) {
-		for(Node node:listaNoduri)
-		{
-			if(ReturnDistancePoints(point.x,point.y,node.getMiddleX(),node.getMiddleY())<=node_diam/2)
-			{
-				node.setSelected(true);
-				return true;
-			}
-		}
-		return false;
 	}
 
 	private double ReturnDistancePoints(double x1,double y1, double x2,double y2) {
@@ -240,8 +230,21 @@ public class MyPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);//apelez metoda paintComponent din clasa de baza
 		g.drawString("This is my Graph! - click stanga arc dublu, click dreapta arc cu un singur sens", 10, 20);
+		if(moving)
+		{
+			for(Node n:listaNoduri)
+			{
+				if(n.getSelected())
+				{
+					g.drawString("Ai selectat nodul" + n.getNumber(),10,34);
+				}
+			}
+		}
+		else
+		{
+			g.drawString("Niciun nod nu e selectat",10,34);
+		}
 		//deseneaza arcele existente in lista
-
 
 			for (Arc a : listaArce) {
 				Node start = a.getStartNode();

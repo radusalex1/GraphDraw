@@ -7,7 +7,7 @@ public class Node
 	private int coordX;
 	private int coordY;
 	private int number;
-	private Boolean selected;
+	private Boolean selected=false;
 	public Node(int coordX, int coordY, int number)
 	{
 		this.coordX = coordX;
