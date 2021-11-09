@@ -42,7 +42,7 @@ public class MyPanel extends JPanel {
 						{
 							n.setSelected(true);
 							moving=true;
-							Selected=n;
+							//Selected=n;
 							//System.out.println(Selected.getSelected()+" "+ n.getSelected());
 							System.out.println(moving +" "+ n.getNumber());
 						}
@@ -95,7 +95,6 @@ public class MyPanel extends JPanel {
 
 				repaint();
 
-
 			}
 		});
 
@@ -126,10 +125,8 @@ public class MyPanel extends JPanel {
 						node=n;
 					}
 				}
-
 				node.setCoordX(e.getX());
 				node.setCoordY(e.getY());
-
 			}
 			else
 			{
@@ -137,7 +134,6 @@ public class MyPanel extends JPanel {
 			}
 			repaint();
 		}
-
 	}
 
 	private double ReturnDistancePoints(double x1,double y1, double x2,double y2) {
@@ -257,7 +253,7 @@ public class MyPanel extends JPanel {
 			}
 
 		//deseneaza arcul curent; cel care e in curs de desenare
-		if (pointStart != null)
+		if (pointStart != null&&moving!=true)
 		{
 			g.setColor(Color.RED);
 			g.drawLine(pointStart.x, pointStart.y, pointEnd.x, pointEnd.y);
