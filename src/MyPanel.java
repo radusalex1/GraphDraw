@@ -260,8 +260,8 @@ public class MyPanel extends JPanel {
 		for(int i=0; i<listaNoduri.size(); i++) {
 			listaNoduri.elementAt(i).drawNode(g, node_diam);
 		}
-
 		displayMatrix(CreateAdjacencyMatrix());
+
 	}
 
 	private int[][] CreateAdjacencyMatrix()
@@ -310,23 +310,25 @@ public class MyPanel extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		TopologicalSortDisplayInConsole(adjMatrix);
+		if(isDragging!=true)
+		{
+			TopologicalSortDisplayInConsole(adjMatrix);
+		}
 	}
 	private void TopologicalSortDisplayInConsole(int[][] adjMatrix)
 	{
-		TopologicalSort ts =  new TopologicalSort(listaNoduri.size()*listaNoduri.size());
+		if(listaNoduri.size()!=0) {
+			TopologicalSort ts = new TopologicalSort(listaNoduri.size() + 1);
 
-		for(int i=1;i<listaNoduri.size()+1;i++)
-		{
-			for(int j=1;j<listaNoduri.size()+1;j++)
-			{
-				if(adjMatrix[i][j]==1)
-				{
-					ts.addEdge(i,j);
+			for (int i = 1; i < listaNoduri.size() + 1; i++) {
+				for (int j = 1; j < listaNoduri.size() + 1; j++) {
+					if (adjMatrix[i][j] == 1) {
+						ts.addEdge(i, j);
+					}
 				}
 			}
+			ts.topologicalSort();
 		}
-		ts.topologicalSort();
 	}
 
 

@@ -19,7 +19,6 @@ public class TopologicalSort {
     {
         visited[v] = true;
         Integer i;
-
         Iterator<Integer> it = adj.get(v).iterator();
         while (it.hasNext())
         {
@@ -27,33 +26,63 @@ public class TopologicalSort {
             if (!visited[i])
                 topologicalSortUtil(i, visited, stack);
         }
-
         stack.push(v);
+    }
+    private boolean isCyclicUtil(int i, boolean[] visited,boolean[] recStack)
+    {
+        if (recStack[i])
+            return true;
+
+        if (visited[i])
+            return false;
+
+        visited[i] = true;
+
+        recStack[i] = true;
+        List<Integer> children = adj.get(i);
+
+        for (Integer c: children)
+            if (isCyclicUtil(c, visited, recStack))
+                return true;
+
+        recStack[i] = false;
+
+        return false;
+    }
+    private boolean isCyclic()
+    {
+        boolean[] visited = new boolean[V];
+        boolean[] recStack = new boolean[V];
+
+
+        for (int i = 0; i < V; i++)
+            if (isCyclicUtil(i, visited, recStack))
+                return true;
+
+        return false;
     }
     void topologicalSort()
     {
-        Stack<Integer> stack = new Stack<Integer>();
-
-        boolean visited[] = new boolean[V];
-        for (int i = 0; i < V; i++)
-            visited[i] = false;
-
-
-        for (int i = 0; i < V; i++)
-            if (visited[i] == false)
-                topologicalSortUtil(i, visited, stack);
-
-        // Print contents of stack
-        try{
-            BufferedWriter output =  new BufferedWriter(new FileWriter("sortat.txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        while (stack.empty() == false)
+        if (!isCyclic())
         {
-            System.out.print(stack.pop() + " ");
+            Stack<Integer> stack = new Stack<Integer>();
+            boolean visited[] = new boolean[V];
+            for (int i = 0; i < V; i++)
+                visited[i] = false;
+
+            for (int i = 0; i < V; i++)
+                if (!visited[i])
+                    topologicalSortUtil(i, visited, stack);
+
+            while (!stack.empty()) {
+                System.out.print(stack.pop() + " ");
+            }
+            System.out.println();
         }
-        System.out.println();
+        else
+        {
+            System.out.println("Graful are cicluri");
+            System.out.println();
+        }
     }
 }
