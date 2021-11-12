@@ -44,7 +44,7 @@ public class MyPanel extends JPanel {
 							moving=true;
 							//Selected=n;
 							//System.out.println(Selected.getSelected()+" "+ n.getSelected());
-							System.out.println(moving +" "+ n.getNumber());
+							//System.out.println(moving +" "+ n.getNumber());
 						}
 					}
 				}
@@ -54,7 +54,7 @@ public class MyPanel extends JPanel {
 					for(Node n:listaNoduri)
 					{
 						n.setSelected(false);
-						System.out.println(n.getNumber()+" "+n.getSelected());
+						//System.out.println(n.getNumber()+" "+n.getSelected());
 					}
 				}
 			}
@@ -158,8 +158,6 @@ public class MyPanel extends JPanel {
 				arc.setEndNode(n);
 				arc.setEnd(n.getMiddleX(),n.getMiddleY());
 			}
-
-
 		}
 	}
 	private boolean ICanDrawArc() {
@@ -276,15 +274,11 @@ public class MyPanel extends JPanel {
 			n=a.getStartNode();
 			m=a.getEndNode();
 			Boolean TwoWayArc=a.getTwoWayLine();
-
 			if(TwoWayArc)
 			{
 				adjMatrix[m.getNumber()][n.getNumber()]=1;
 			}
-
 			adjMatrix[n.getNumber()][m.getNumber()]=1;
-
-
 		}
 		return adjMatrix;
 	}
@@ -316,6 +310,24 @@ public class MyPanel extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		TopologicalSortDisplayInConsole(adjMatrix);
 	}
+	private void TopologicalSortDisplayInConsole(int[][] adjMatrix)
+	{
+		TopologicalSort ts =  new TopologicalSort(listaNoduri.size()*listaNoduri.size());
+
+		for(int i=1;i<listaNoduri.size()+1;i++)
+		{
+			for(int j=1;j<listaNoduri.size()+1;j++)
+			{
+				if(adjMatrix[i][j]==1)
+				{
+					ts.addEdge(i,j);
+				}
+			}
+		}
+		ts.topologicalSort();
+	}
+
 
 }
