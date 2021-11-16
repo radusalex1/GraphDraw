@@ -89,10 +89,8 @@ public class MyPanel extends JPanel {
 						listaArce.add(arc);
 					}
 				}
-
 				pointStart = null;
 				isDragging = false;
-
 				repaint();
 
 			}
@@ -238,6 +236,7 @@ public class MyPanel extends JPanel {
 		{
 			g.drawString("Niciun nod nu e selectat",10,34);
 		}
+
 		//deseneaza arcele existente in lista
 
 			for (Arc a : listaArce) {
@@ -260,8 +259,11 @@ public class MyPanel extends JPanel {
 		for(int i=0; i<listaNoduri.size(); i++) {
 			listaNoduri.elementAt(i).drawNode(g, node_diam);
 		}
-		displayMatrix(CreateAdjacencyMatrix());
-
+		try {
+			displayMatrix(CreateAdjacencyMatrix());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private int[][] CreateAdjacencyMatrix()
@@ -282,8 +284,7 @@ public class MyPanel extends JPanel {
 		}
 		return adjMatrix;
 	}
-	private void displayMatrix(int[][] adjMatrix)
-	{
+	private void displayMatrix(int[][] adjMatrix) throws IOException {
 		try {
 			BufferedWriter output =  new BufferedWriter(new FileWriter("matrix.txt"));
 			output.write("Indexarea este de la 1!");
@@ -315,21 +316,21 @@ public class MyPanel extends JPanel {
 			TopologicalSortDisplayInConsole(adjMatrix);
 		}
 	}
-	private void TopologicalSortDisplayInConsole(int[][] adjMatrix)
-	{
+	private void TopologicalSortDisplayInConsole(int[][] adjMatrix) throws IOException {
 		if(listaNoduri.size()!=0) {
-			TopologicalSort ts = new TopologicalSort(listaNoduri.size() + 1);
+			TopologicalSort ts = new TopologicalSort(listaNoduri.size());
 
-			for (int i = 1; i < listaNoduri.size() + 1; i++) {
-				for (int j = 1; j < listaNoduri.size() + 1; j++) {
-					if (adjMatrix[i][j] == 1) {
-						ts.addEdge(i, j);
+			for (int i = 1; i < listaNoduri.size() + 1; i++)
+			{
+				for (int j = 1; j < listaNoduri.size() + 1; j++)
+				{
+					if (adjMatrix[i][j] == 1)
+					{
+						ts.addEdge(i-1, j-1);
 					}
 				}
 			}
 			ts.topologicalSort();
 		}
 	}
-
-
 }

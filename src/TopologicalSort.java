@@ -61,8 +61,10 @@ public class TopologicalSort {
 
         return false;
     }
-    void topologicalSort()
-    {
+    void topologicalSort() throws IOException {
+        BufferedWriter output1 =  new BufferedWriter(new FileWriter("sortat.txt"));
+        output1.write("sortarea topologica este:");
+        output1.newLine();
         if (!isCyclic())
         {
             Stack<Integer> stack = new Stack<Integer>();
@@ -73,16 +75,23 @@ public class TopologicalSort {
             for (int i = 0; i < V; i++)
                 if (!visited[i])
                     topologicalSortUtil(i, visited, stack);
+            try{
 
-            while (!stack.empty()) {
-                System.out.print(stack.pop() + " ");
+                while(!stack.empty())
+                {
+                    Integer elem=stack.pop()+1;
+                    String elem1=String.valueOf(elem);
+                    output1.write( elem1+ " ");
+                }
+
+            }catch (IOException e) {
+                e.printStackTrace();
             }
-            System.out.println();
         }
         else
         {
-            System.out.println("Graful are cicluri");
-            System.out.println();
+           output1.write("Graful are cicluri");
         }
+        output1.flush();
     }
 }
