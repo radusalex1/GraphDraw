@@ -18,8 +18,6 @@ public class Graf
 	
 	public static void main(String[] args)
 	{
-		//pornesc firul de executie grafic
-		//fie prin implementarea interfetei Runnable, fie printr-un ob al clasei Thread
 		SwingUtilities.invokeLater(new Runnable() //new Thread()
 		{
             public void run() 

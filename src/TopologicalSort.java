@@ -3,7 +3,7 @@ import java.util.*;
 
 public class TopologicalSort {
     private int V;
-    private ArrayList<ArrayList<Integer> > adj;
+    private ArrayList<ArrayList<Integer>> adj;
     TopologicalSort(int v)
     {
         V = v;

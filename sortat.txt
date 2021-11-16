@@ -1,2 +1,2 @@
 sortarea topologica este:
-4 3 1 2 
+Graful are cicluri

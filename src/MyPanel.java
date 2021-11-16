@@ -9,10 +9,9 @@ import javax.swing.JPanel;
 public class MyPanel extends JPanel {
 
 	private int nodeNr = 1;
-	private int node_diam = 30;
-	private Node Selected;
-	private Vector<Node> listaNoduri;
-	private Vector<Arc> listaArce;
+	private final int node_diam = 30;
+	private final Vector<Node> listaNoduri;
+	private final Vector<Arc> listaArce;
 
 	Point pointStart = null;
 	Point pointEnd = null;
@@ -260,7 +259,6 @@ public class MyPanel extends JPanel {
 			e.printStackTrace();
 		}
 	}
-
 	private int[][] CreateAdjacencyMatrix()
 	{
 		int[][] adjMatrix = new int[listaNoduri.size()+1][listaNoduri.size()+1];
@@ -309,23 +307,44 @@ public class MyPanel extends JPanel {
 		if(isDragging!=true)
 		{
 			TopologicalSortDisplayInFile(adjMatrix);
+			ConnectedComponents(adjMatrix);
 		}
 	}
+
 	private void TopologicalSortDisplayInFile(int[][] adjMatrix) throws IOException {
 		if(listaNoduri.size()!=0) {
+			StronglyConnectedComponents scc = new StronglyConnectedComponents(listaNoduri.size());
 			TopologicalSort ts = new TopologicalSort(listaNoduri.size());
-
 			for (int i = 1; i < listaNoduri.size() + 1; i++)
 			{
 				for (int j = 1; j < listaNoduri.size() + 1; j++)
 				{
 					if (adjMatrix[i][j] == 1)
 					{
+						scc.addEdge(i-1,j-1);
 						ts.addEdge(i-1, j-1);
 					}
 				}
 			}
 			ts.topologicalSort();
+			scc.printSCCs();
+		}
+	}
+	private void ConnectedComponents(int [][] adjMatrix)
+	{
+		if(listaNoduri.size()!=0) {
+			StronglyConnectedComponents scc = new StronglyConnectedComponents(listaNoduri.size());
+			for (int i = 1; i < listaNoduri.size() + 1; i++)
+			{
+				for (int j = 1; j < listaNoduri.size() + 1; j++)
+				{
+					if (adjMatrix[i][j] == 1)
+					{
+						scc.addEdge(i-1,j-1);
+					}
+				}
+			}
+			scc.printSCCs();
 		}
 	}
 }
