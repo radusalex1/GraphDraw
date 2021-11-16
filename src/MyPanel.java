@@ -42,9 +42,6 @@ public class MyPanel extends JPanel {
 						{
 							n.setSelected(true);
 							moving=true;
-							//Selected=n;
-							//System.out.println(Selected.getSelected()+" "+ n.getSelected());
-							//System.out.println(moving +" "+ n.getNumber());
 						}
 					}
 				}
@@ -54,11 +51,9 @@ public class MyPanel extends JPanel {
 					for(Node n:listaNoduri)
 					{
 						n.setSelected(false);
-						//System.out.println(n.getNumber()+" "+n.getSelected());
 					}
 				}
 			}
-
 			//evenimentul care se produce la eliberarea mousse-ului
 			public void mouseReleased(MouseEvent e) {
 
@@ -313,10 +308,10 @@ public class MyPanel extends JPanel {
 		}
 		if(isDragging!=true)
 		{
-			TopologicalSortDisplayInConsole(adjMatrix);
+			TopologicalSortDisplayInFile(adjMatrix);
 		}
 	}
-	private void TopologicalSortDisplayInConsole(int[][] adjMatrix) throws IOException {
+	private void TopologicalSortDisplayInFile(int[][] adjMatrix) throws IOException {
 		if(listaNoduri.size()!=0) {
 			TopologicalSort ts = new TopologicalSort(listaNoduri.size());
 

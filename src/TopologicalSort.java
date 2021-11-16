@@ -76,14 +76,10 @@ public class TopologicalSort {
                 if (!visited[i])
                     topologicalSortUtil(i, visited, stack);
             try{
-
                 while(!stack.empty())
                 {
-                    Integer elem=stack.pop()+1;
-                    String elem1=String.valueOf(elem);
-                    output1.write( elem1+ " ");
+                    output1.write( String.valueOf(stack.pop()+1)+ " ");
                 }
-
             }catch (IOException e) {
                 e.printStackTrace();
             }
