@@ -67,8 +67,8 @@ public class Arc
 	{
 		if (start != null)
 		{
-            g.setColor(java.awt.Color.RED);
-            g.drawLine(start.getMiddleX(), start.getMiddleY(), end.getMiddleX(), end.getMiddleY());
+			g.setColor(java.awt.Color.RED);
+			g.drawLine(start.getMiddleX(), start.getMiddleY(), end.getMiddleX(), end.getMiddleY());
         }
 	}
 
@@ -88,7 +88,7 @@ public class Arc
 
 		int[] xpoints = {x2, (int) xm, (int) xn};
 		int[] ypoints = {y2, (int) ym, (int) yn};
-		g.setColor(java.awt.Color.RED);
+		g.setColor(java.awt.Color.BLUE);
 		g.drawLine(x1, y1, x2, y2);
 		g.fillPolygon(xpoints, ypoints, 3);
 	}

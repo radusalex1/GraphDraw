@@ -8,11 +8,33 @@ public class Node
 	private int coordY;
 	private int number;
 	private Boolean selected=false;
+	private float r;
+	private float gr;
+	private float b;
 	public Node(int coordX, int coordY, int number)
 	{
 		this.coordX = coordX;
 		this.coordY = coordY;
 		this.number = number;
+	}
+
+	public void setR(float r) {
+		this.r = r;
+	}
+	public void setG(float g) {
+		this.gr = g;
+	}
+	public void setB(float b) {
+		this.b = b;
+	}
+	public float getR() {
+		return r;
+	}
+	public float getG() {
+		return gr;
+	}
+	public float getB() {
+		return b;
 	}
 	public int getMiddleX(){
 		return (this.getCoordX()*2+30)/2;
@@ -49,7 +71,7 @@ public class Node
 
 	public void drawNode(Graphics g, int node_diam)
 	{
-		g.setColor(Color.GREEN);//fill color
+		g.setColor(new Color(r,gr,b));//fill color
 
 		g.setFont(new Font("TimesRoman", Font.BOLD, 15));
         g.fillOval(coordX, coordY, node_diam, node_diam);

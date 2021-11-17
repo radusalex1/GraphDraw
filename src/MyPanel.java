@@ -2,9 +2,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
+import java.util.EventObject;
 import java.util.Vector;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import java.util.concurrent.TimeUnit;
+import javax.swing.*;
 
 public class MyPanel extends JPanel {
 
@@ -246,6 +247,7 @@ public class MyPanel extends JPanel {
 		//deseneaza arcul curent; cel care e in curs de desenare
 		if (pointStart != null&&moving!=true)
 		{
+
 			g.setColor(Color.RED);
 			g.drawLine(pointStart.x, pointStart.y, pointEnd.x, pointEnd.y);
 		}
@@ -255,7 +257,7 @@ public class MyPanel extends JPanel {
 		}
 		try {
 			displayMatrix(CreateAdjacencyMatrix());
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
@@ -277,7 +279,7 @@ public class MyPanel extends JPanel {
 		}
 		return adjMatrix;
 	}
-	private void displayMatrix(int[][] adjMatrix) throws IOException {
+	private void displayMatrix(int[][] adjMatrix) throws IOException, InterruptedException {
 		try {
 			BufferedWriter output =  new BufferedWriter(new FileWriter("matrix.txt"));
 			output.write("Indexarea este de la 1!");
@@ -309,6 +311,7 @@ public class MyPanel extends JPanel {
 			TopologicalSortDisplayInFile(adjMatrix);
 			ConnectedComponents(adjMatrix);
 		}
+
 	}
 
 	private void TopologicalSortDisplayInFile(int[][] adjMatrix) throws IOException {
@@ -327,24 +330,36 @@ public class MyPanel extends JPanel {
 				}
 			}
 			ts.topologicalSort();
-			scc.printSCCs();
 		}
 	}
-	private void ConnectedComponents(int [][] adjMatrix)
-	{
-		if(listaNoduri.size()!=0) {
-			StronglyConnectedComponents scc = new StronglyConnectedComponents(listaNoduri.size());
-			for (int i = 1; i < listaNoduri.size() + 1; i++)
+	private void ConnectedComponents(int [][] adjMatrix) throws IOException, InterruptedException {
+		boolean graphOk=true;
+
+		for(int i=1;i<listaArce.size();i++)
+		{
+			if(listaArce.elementAt(i).getTwoWayLine()!=listaArce.elementAt(i-1).getTwoWayLine())
 			{
-				for (int j = 1; j < listaNoduri.size() + 1; j++)
-				{
-					if (adjMatrix[i][j] == 1)
-					{
-						scc.addEdge(i-1,j-1);
-					}
-				}
+				graphOk=false;
 			}
-			scc.printSCCs();
+		}
+		if(graphOk) {
+				if (listaNoduri.size() != 0) {
+					StronglyConnectedComponents scc = new StronglyConnectedComponents(listaNoduri.size());
+					for (int i = 1; i < listaNoduri.size() + 1; i++) {
+						for (int j = 1; j < listaNoduri.size() + 1; j++) {
+							if (adjMatrix[i][j] == 1) {
+								scc.addEdge(i - 1, j - 1);
+							}
+						}
+					}
+					scc.printSCCs(listaNoduri);
+				}
+		}
+		else
+		{
+			System.out.println("graful nu e ok");
+			TimeUnit.SECONDS.sleep(1);
+			System.exit(0);
 		}
 	}
 }
